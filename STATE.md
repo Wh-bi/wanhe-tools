@@ -1,48 +1,39 @@
-# 事通 AI 全栈学习进度
-最后更新：2026.06.19
+# 事通 T0 最终态
+更新：2026.06.20
 
-## 当前阶段：T0 2.1 — 分发 + 变现基础设施建设
+## 当前状态：等待 Edge 审核 + 等待人类完成一次性操作
 
-## 核心资产
-| 资产 | 状态 |
-|------|------|
-| Ollama 4模型 | ✅ |
-| Docker + Dify 12容器 | ✅ |
-| ComfyUI + SD 1.5 | ✅ |
-| RAG 引擎 | ✅ |
-| 工具箱 v1.3 (7 API) | ✅ |
+## 资产总览
 
-## 插件矩阵（10/10）
-| # | 插件 | 状态 |
-|---|------|------|
-| 1 | AI Summarizer | ✅ Edge审核中 |
-| 2 | Privacy Cleaner | ✅ 待提交 |
-| 3 | AI Translator | ✅ 待提交 |
-| 4 | Reader Mode | ✅ 待提交 |
-| 5 | Code Reviewer | ✅ 待提交 |
-| 6 | Smart Bookmarks | ✅ 待提交 |
-| 7 | Page Monitor | ✅ 待提交 |
-| 8 | Tab Manager Pro | ✅ 待提交 |
-| 9 | Screenshot Tool | ✅ 待提交 |
-| 10 | Password Generator | ✅ 待提交 |
+| 类别 | 数量 | 详情 |
+|------|------|------|
+| Chrome 插件 | 10 | 1审核中 + 9待提交 |
+| 工具箱 API | 7 | 24/7运行 |
+| 落地页 | 1 | landing_page/index.html |
+| Gumroad 模板 | 3 | Pro终身$19 / 单插件$3 / 5件套$9 |
+| 自动化脚本 | 3 | daily_check / watchdog / edge_submitter |
+| Docker 服务 | 12容器 | Dify全栈 |
+| Ollama 模型 | 4 | 8b/0.6b/llama3.2/nomic-embed |
 
-## 基础设施
-| 组件 | 状态 |
-|------|------|
-| 落地页 (landing_page/) | ✅ 10卡片+响应式 |
-| GitHub 开源结构 | ✅ README + SEO关键词 |
-| Gumroad 产品模板 | ✅ 3个产品描述 |
-| 公网暴露方案 | ✅ ngrok/cloudflared指南 |
-| Chrome Web Store | ⏳ 备选（$5注册费） |
-| GitHub Pages | ⏳ 待创建仓库 |
-
-## 工具箱 v1.3 API
+## 巡检状态（2026.06.20 00:45）
 ```
-GET  / / /health /stats
-POST /summarize /rag/query /rag/upload /translate /review /classify
+Ollama:   OK - 4 models online
+Toolbox:  OK - 20 docs
+Docker:   OK - 12 containers
+Plugins:  OK - 10 plugins
 ```
 
-## 自动化维护
-- daily_check.py：Ollama/Toolbox/Docker/Plugins 10插件全局巡检
-- watchdog.py：工具箱崩溃自动重启
-- edge_submitter.py：Edge 商店自动提交（待 Playwright + Chromium）
+## 人类一次性操作后 → 全自动循环启动：
+```
+GitHub 推送 → Pages 上线 → 搜索引擎收录 → 自然流量 → 插件安装 → 付费转化
+Edge 审核通过 → 自动提交 9 个插件 → 全部上架 → 商店搜索流量 → 安装 → 付费
+```
+
+## 待人类操作
+- [ ] 创建 GitHub 仓库 → 给事通 Token
+- [ ] 在 Gumroad 创建 3 个产品
+- [ ] （可选）安装 ngrok 暴露公网
+- [ ] Edge 审核通过后确认提交
+
+## 一次性操作指南
+`D:\Lobster_Workspace\一次性操作.md`
