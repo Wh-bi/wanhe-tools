@@ -1,0 +1,18 @@
+{
+  "manifest_version": 3,
+  "name": "AI Translator",
+  "version": "1.0",
+  "description": "Select text on any webpage and translate with local AI (Ollama + qwen3)",
+  "permissions": ["contextMenus", "activeTab", "scripting", "storage"],
+  "host_permissions": ["<all_urls>"],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "action": {
+    "default_popup": "popup.html",
+    "default_icon": "icon.png"
+  },
+  "icons": {
+    "128": "icon_128.png"
+  }
+}

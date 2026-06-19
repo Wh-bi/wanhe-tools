@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{width:300px;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:#0f172a;color:#e2e8f0;padding:16px}
+h1{font-size:1rem;margin-bottom:4px;background:linear-gradient(135deg,#4ade80,#22d3ee);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.sub{font-size:.7rem;color:#64748b;margin-bottom:16px}
+.options{margin-bottom:16px}
+.opt{display:flex;align-items:center;gap:8px;padding:8px 0;border-bottom:1px solid #1e293b;font-size:.8rem}
+.opt input[type="checkbox"]{accent-color:#4ade80;width:16px;height:16px}
+.opt label{cursor:pointer;flex:1}
+.btn{display:block;width:100%;padding:10px;background:linear-gradient(135deg,#16a34a,#0d9488);color:#fff;border:none;border-radius:8px;font-size:.85rem;cursor:pointer;margin-bottom:12px}
+.btn:hover{opacity:.9}
+.btn:disabled{opacity:.5}
+.result{background:#1e293b;border:1px solid #334155;border-radius:8px;padding:12px;font-size:.75rem;line-height:1.5;display:none}
+.result.show{display:block}
+.result.success{color:#4ade80}
+.result.error{color:#f87171}
+.loading{text-align:center;color:#94a3b8;font-size:.75rem;margin:8px 0;display:none}
+</style>
+</head>
+<body>
+<h1>Privacy Cleaner</h1>
+<p class="sub">Clean browsing data in one click</p>
+<div class="options">
+  <div class="opt"><input type="checkbox" id="cookies" checked><label for="cookies">Cookies</label></div>
+  <div class="opt"><input type="checkbox" id="cache" checked><label for="cache">Cache</label></div>
+  <div class="opt"><input type="checkbox" id="history" checked><label for="history">Browsing History</label></div>
+  <div class="opt"><input type="checkbox" id="localStorage"><label for="localStorage">Local Storage</label></div>
+</div>
+<button class="btn" id="cleanBtn">Clean Selected</button>
+<div class="loading" id="loading">Cleaning...</div>
+<div class="result" id="result"></div>
+<script src="popup.js"></script>
+</body>
+</html>

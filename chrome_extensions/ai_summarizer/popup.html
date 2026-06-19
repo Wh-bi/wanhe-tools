@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{width:360px;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:#0f172a;color:#e2e8f0;padding:16px}
+h1{font-size:1.1rem;margin-bottom:4px;background:linear-gradient(135deg,#60a5fa,#a78bfa);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.sub{font-size:.7rem;color:#64748b;margin-bottom:16px}
+.btn{display:block;width:100%;padding:10px;background:linear-gradient(135deg,#3b82f6,#6366f1);color:#fff;border:none;border-radius:8px;font-size:.9rem;cursor:pointer;margin-bottom:12px}
+.btn:hover{opacity:.9}
+.btn:disabled{opacity:.5}
+.model-row{display:flex;gap:8px;align-items:center;margin-bottom:12px;font-size:.75rem;color:#94a3b8}
+.model-row select{background:#1e293b;color:#e2e8f0;border:1px solid #334155;border-radius:4px;padding:4px 8px;font-size:.75rem}
+.result{background:#1e293b;border:1px solid #334155;border-radius:8px;padding:12px;font-size:.8rem;line-height:1.6;display:none;max-height:300px;overflow-y:auto}
+.result.show{display:block}
+.result .meta{color:#64748b;font-size:.7rem;margin-top:8px;border-top:1px solid #334155;padding-top:8px}
+.loading{text-align:center;color:#94a3b8;font-size:.75rem;margin:8px 0;display:none}
+</style>
+</head>
+<body>
+<h1>AI Summarizer</h1>
+<p class="sub">Powered by local Ollama - data stays on your machine</p>
+<div class="model-row">
+  <label>Model:</label>
+  <select id="model">
+    <option value="qwen3:0.6b" selected>Fast (qwen3:0.6b)</option>
+    <option value="qwen3:8b">Deep (qwen3:8b)</option>
+  </select>
+</div>
+<div class="model-row">
+  <label>Length:</label>
+  <select id="detail">
+    <option value="brief">Short</option>
+    <option value="moderate" selected>Medium</option>
+    <option value="detailed">Long</option>
+  </select>
+</div>
+<button class="btn" id="summarizeBtn">Summarize Current Page</button>
+<div class="loading" id="loading">AI is reading the page...</div>
+<div class="result" id="result">
+  <p id="output"></p>
+  <div class="meta"><span id="meta"></span></div>
+</div>
+<script src="popup.js"></script>
+</body>
+</html>

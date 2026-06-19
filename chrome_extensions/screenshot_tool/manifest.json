@@ -1,0 +1,21 @@
+{
+  "manifest_version": 3,
+  "name": "Screenshot Tool",
+  "version": "1.0",
+  "description": "Capture, edit, and annotate screenshots. Full page, visible area, or selection.",
+  "permissions": ["activeTab", "scripting", "downloads", "clipboardWrite"],
+  "host_permissions": ["<all_urls>"],
+  "action": {
+    "default_popup": "popup.html",
+    "default_icon": "icon.png"
+  },
+  "icons": {
+    "128": "icon_128.png"
+  },
+  "commands": {
+    "screenshot": {
+      "suggested_key": { "default": "Ctrl+Shift+S" },
+      "description": "Capture screenshot"
+    }
+  }
+}

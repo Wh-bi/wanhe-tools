@@ -1,0 +1,17 @@
+*.pdf
+*.bin
+*.gguf
+*.safetensors
+models/
+checkpoints/
+__pycache__/
+*.pyc
+.env
+.npm
+node_modules/
+*.log
+*.zip
+*.crx
+*.pem
+*.key
+.chroma_db/

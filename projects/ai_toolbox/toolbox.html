@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Toolbox</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:#0f172a;color:#e2e8f0;min-height:100vh}
+.header{background:#1e293b;border-bottom:1px solid #334155;padding:16px 24px}
+.header h1{font-size:1.5rem;background:linear-gradient(135deg,#60a5fa,#a78bfa);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.tabs{display:flex;background:#1e293b;border-bottom:1px solid #334155;padding:0 24px}
+.tab{padding:12px 24px;cursor:pointer;color:#94a3b8;border-bottom:2px solid transparent;transition:.2s}
+.tab:hover{color:#e2e8f0}
+.tab.active{color:#60a5fa;border-bottom-color:#60a5fa}
+.content{max-width:800px;margin:24px auto;padding:0 24px}
+.panel{display:none}
+.panel.active{display:block}
+textarea{width:100%;height:150px;background:#1e293b;border:1px solid #334155;border-radius:8px;padding:12px;color:#e2e8f0;font-size:.95rem;resize:vertical;font-family:inherit}
+textarea:focus{outline:none;border-color:#60a5fa}
+select{background:#1e293b;color:#e2e8f0;border:1px solid #334155;border-radius:6px;padding:6px 12px;font-size:.85rem}
+button{margin-top:12px;padding:10px 28px;background:linear-gradient(135deg,#3b82f6,#6366f1);color:#fff;border:none;border-radius:8px;font-size:.95rem;cursor:pointer}
+button:hover{opacity:.9}
+button:disabled{opacity:.5}
+.result{margin-top:16px;background:#1e293b;border:1px solid #334155;border-radius:8px;padding:16px;display:none}
+.result.show{display:block}
+.result h3{color:#60a5fa;font-size:.85rem;margin-bottom:8px}
+.result p{line-height:1.7;color:#cbd5e1}
+.loading{display:none;color:#94a3b8;margin-top:8px;font-size:.85rem}
+.row{display:flex;gap:12px;align-items:center;margin-top:8px}
+.chunk{background:#0f172a;border-left:3px solid #60a5fa;padding:8px 12px;margin:8px 0;border-radius:4px;font-size:.85rem;color:#94a3b8}
+.chunk .src{color:#60a5fa;font-size:.85rem;font-weight:600;margin-bottom:4px;display:block}
+.status-bar{font-size:.75rem;color:#94a3b8;margin-top:4px}
+.status-bar .ok{color:#4ade80}
+.footer{text-align:center;color:#64748b;font-size:.75rem;padding:24px;border-top:1px solid #1e293b;margin-top:40px}
+.copy-btn{background:#334155;color:#94a3b8;border:1px solid #475569;padding:4px 12px;border-radius:4px;font-size:.75rem;cursor:pointer;margin-top:8px}
+.copy-btn:hover{background:#475569;color:#e2e8f0}
+</style>
+</head>
+<body>
+<div class="header"><h1>AI Toolbox</h1><div class="status-bar"><span id="status-bar">Checking status...</span><span style="float:right"><select id="modelSelect" style="background:#1e293b;color:#e2e8f0;border:1px solid #334155;border-radius:6px;padding:3px 10px;font-size:.75rem"><option value="qwen3:0.6b" selected>Fast (qwen3:0.6b)</option><option value="qwen3:8b">Deep (qwen3:8b)</option></select></span></div></div>
+<div class="tabs">
+  <div class="tab active" onclick="switchTab('summarize')">Summarizer</div>
+  <div class="tab" onclick="switchTab('rag')">RAG QA</div>
+  <div class="tab" onclick="switchTab('upload')">Upload Docs</div>
+</div>
+<div class="content">
+
+<!-- Summarize Panel -->
+<div class="panel active" id="panel-summarize">
+  <textarea id="sum-text" placeholder="Paste text to summarize..."></textarea>
+  <div class="row">
+    <select id="sum-detail">
+      <option value="brief">Brief (100 words)</option>
+      <option value="moderate" selected>Moderate (300 words)</option>
+      <option value="detailed">Detailed (600 words)</option>
+    </select>
+    <button onclick="doSummarize()">Summarize</button>
+  </div>
+  <div class="loading" id="sum-loading">Generating...</div>
+  <div class="result" id="sum-result"><h3>Summary</h3><p id="sum-output"></p><button class="copy-btn" onclick="copyResult('sum-output')">Copy</button></div>
+</div>
+
+<!-- RAG QA Panel -->
+<div class="panel" id="panel-rag">
+  <textarea id="rag-query" placeholder="Ask a question based on uploaded documents..."></textarea>
+  <button onclick="doRagQuery()">Ask</button>
+  <div class="loading" id="rag-loading">Searching & generating...</div>
+  <div class="result" id="rag-result">
+    <h3>Answer</h3><p id="rag-output"></p>
+    <div id="rag-chunks"></div>
+  </div>
+</div>
+
+<!-- Upload Panel -->
+<div class="panel" id="panel-upload">
+  <div class="row"><input id="up-filename" placeholder="Filename (e.g. notes.txt)" style="flex:1;background:#1e293b;border:1px solid #334155;border-radius:6px;padding:8px 12px;color:#e2e8f0;font-size:.9rem"></div>
+  <textarea id="up-content" placeholder="Paste document content here..." style="margin-top:8px"></textarea>
+  <button onclick="doUpload()">Upload & Index</button>
+  <div class="loading" id="up-loading">Uploading and indexing...</div>
+  <div class="result" id="up-result"><p id="up-output"></p></div>
+</div>
+
+</div>
+<div class="footer">Local AI Toolbox - Data stays on your machine - v1.0</div>
+<script>
+const API = "http://localhost:8888";
+
+function switchTab(name) {
+  document.querySelectorAll(".tab").forEach(t=>t.classList.remove("active"));
+  document.querySelectorAll(".panel").forEach(p=>p.classList.remove("active"));
+  document.querySelector(`.tab:nth-child(${{summarize:1,rag:2,upload:3}[name]})`).classList.add("active");
+  document.getElementById("panel-"+name).classList.add("active");
+}
+
+async function doSummarize() {
+  const text = document.getElementById("sum-text").value.trim();
+  if (!text) return alert("Please paste text first");
+  toggleUI("sum", true);
+  const t0 = Date.now();
+  try {
+    const model = document.getElementById("modelSelect").value;
+    const r = await fetch(API+"/summarize", {method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({text,detail:document.getElementById("sum-detail").value, model})});
+    const d = await r.json();
+    const dt = ((Date.now()-t0)/1000).toFixed(1);
+    document.getElementById("sum-output").innerHTML = d.result + `<br><small style='color:#64748b'>Latency: ${dt}s | Model: ${model}</small>`;
+    document.getElementById("sum-result").classList.add("show");
+  } catch(e) { document.getElementById("sum-output").textContent = "Connection error. Start toolbox_backend.py first."; document.getElementById("sum-result").classList.add("show"); }
+  toggleUI("sum", false);
+}
+
+async function doRagQuery() {
+  const query = document.getElementById("rag-query").value.trim();
+  if (!query) return alert("Enter a question");
+  toggleUI("rag", true);
+  const t0 = Date.now();
+  try {
+    const model = document.getElementById("modelSelect").value;
+    const r = await fetch(API+"/rag/query", {method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({query, model})});
+    const d = await r.json();
+    const dt = ((Date.now()-t0)/1000).toFixed(1);
+    document.getElementById("rag-output").innerHTML = (d.answer || "No answer") + `<br><small style='color:#64748b'>Latency: ${dt}s | Model: ${model}</small>`;
+    let html = "";
+    (d.chunks||[]).forEach(c=>{html+=`<div class="chunk"><span class="src">${c.source}</span>${c.content.substring(0,150)}...</div>`});
+    document.getElementById("rag-chunks").innerHTML = html;
+    document.getElementById("rag-result").classList.add("show");
+  } catch(e) { document.getElementById("rag-output").textContent = "Connection error."; document.getElementById("rag-result").classList.add("show"); }
+  toggleUI("rag", false);
+}
+
+async function doUpload() {
+  const filename = document.getElementById("up-filename").value.trim() || "upload.txt";
+  const content = document.getElementById("up-content").value.trim();
+  if (!content) return alert("Paste document content");
+  toggleUI("up", true);
+  try {
+    const r = await fetch(API+"/rag/upload", {method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({filename,content})});
+    const d = await r.json();
+    document.getElementById("up-output").textContent = `Uploaded! ${d.chunks} chunks indexed as "${d.filename}". Now switch to RAG QA tab to ask questions.`;
+    document.getElementById("up-result").classList.add("show");
+  } catch(e) { document.getElementById("up-output").textContent = "Connection error."; document.getElementById("up-result").classList.add("show"); }
+  toggleUI("up", false);
+}
+
+function copyResult(id) {
+  const text = document.getElementById(id).textContent;
+  navigator.clipboard.writeText(text).then(()=>{
+    const btn = event.target;
+    btn.textContent = "Copied!";
+    setTimeout(()=>btn.textContent = "Copy", 2000);
+  });
+}
+
+function toggleUI(prefix, loading) {
+  document.getElementById(prefix+"-loading").style.display = loading?"block":"none";
+  document.querySelector(`#panel-${prefix==='sum'?'summarize':prefix} button`).disabled = loading;
+}
+
+(async function initStatus() {
+  try {
+    const r = await fetch(API+"/health");
+    const d = await r.json();
+    const bar = document.getElementById("status-bar");
+    bar.innerHTML = `<span class="ok">Ollama ${d.ollama?"OK":"DOWN"}</span> | Docs: ${d.doc_count} | Model: qwen3:8b`;
+  } catch(e) {
+    document.getElementById("status-bar").innerHTML = "Status unavailable - start toolbox_backend.py";
+  }
+})();
+</script>
+</body>
+</html>

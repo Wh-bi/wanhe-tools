@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{width:420px;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:#0f172a;color:#e2e8f0;padding:16px}
+h1{font-size:1rem;margin-bottom:4px;background:linear-gradient(135deg,#f97316,#f59e0b);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.sub{font-size:.7rem;color:#64748b;margin-bottom:12px}
+.toolbar{display:flex;gap:6px;margin-bottom:12px;flex-wrap:wrap}
+.search-box{flex:1;min-width:120px;background:#1e293b;border:1px solid #334155;border-radius:6px;padding:6px 10px;color:#e2e8f0;font-size:.75rem}
+.search-box:focus{outline:none;border-color:#f97316}
+.btn{background:#1e293b;color:#e2e8f0;border:1px solid #334155;border-radius:6px;padding:6px 10px;font-size:.7rem;cursor:pointer;white-space:nowrap}
+.btn:hover{background:#334155}
+.btn.accent{background:#c2410c;border-color:#f97316;color:#fff}
+.stats{display:flex;gap:14px;margin-bottom:12px;font-size:.7rem;color:#64748b}
+.stats span{color:#f97316;font-weight:600}
+.list{max-height:350px;overflow-y:auto}
+.window-group{margin-bottom:12px}
+.win-header{font-size:.7rem;color:#64748b;padding:4px 8px;margin-bottom:4px;border-bottom:1px solid #1e293b}
+.tab-item{display:flex;align-items:center;gap:8px;padding:6px 8px;font-size:.75rem;border-radius:4px;cursor:pointer}
+.tab-item:hover{background:#1e293b}
+.tab-item img{width:14px;height:14px}
+.tab-item .title{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:#e2e8f0}
+.tab-item .title.discarded{color:#64748b;font-style:italic}
+.tab-item .close-btn{color:#ef4444;font-size:.6rem;cursor:pointer;padding:2px 4px;border-radius:2px}
+.tab-item .close-btn:hover{background:#991b1b}
+.session-row{display:flex;justify-content:space-between;align-items:center;padding:6px 8px;background:#1e293b;border-radius:4px;margin-bottom:4px;font-size:.75rem}
+.session-row .restore{color:#f97316;cursor:pointer;font-size:.7rem}
+</style>
+</head>
+<body>
+<h1>Tab Manager Pro</h1>
+<p class="sub">Search, merge, sleep, save sessions</p>
+
+<div class="toolbar">
+  <input class="search-box" id="search" placeholder="Search tabs..." oninput="renderTabs()">
+  <button class="btn accent" id="mergeBtn">Merge Windows</button>
+  <button class="btn" id="sleepBtn">Sleep Inactive</button>
+  <button class="btn" id="saveSessionBtn">Save Session</button>
+  <button class="btn" id="sessionsBtn">Sessions</button>
+</div>
+
+<div class="stats" id="stats"></div>
+<div class="list" id="list"></div>
+
+<script src="popup.js"></script>
+</body>
+</html>

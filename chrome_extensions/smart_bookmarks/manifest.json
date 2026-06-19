@@ -1,0 +1,14 @@
+{
+  "manifest_version": 3,
+  "name": "Smart Bookmarks",
+  "version": "2.0",
+  "description": "AI-powered bookmark manager - auto classify, deduplicate, and detect dead links",
+  "permissions": ["bookmarks", "storage", "activeTab"],
+  "action": {
+    "default_popup": "popup.html",
+    "default_icon": "icon.png"
+  },
+  "icons": {
+    "128": "icon_128.png"
+  }
+}

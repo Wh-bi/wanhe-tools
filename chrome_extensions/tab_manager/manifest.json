@@ -1,0 +1,15 @@
+{
+  "manifest_version": 3,
+  "name": "Tab Manager Pro",
+  "version": "1.0",
+  "description": "Search, merge, sleep, and save tabs. Reclaim your browser memory and sanity.",
+  "permissions": ["tabs", "tabGroups", "storage", "scripting"],
+  "host_permissions": ["<all_urls>"],
+  "action": {
+    "default_popup": "popup.html",
+    "default_icon": "icon.png"
+  },
+  "icons": {
+    "128": "icon_128.png"
+  }
+}

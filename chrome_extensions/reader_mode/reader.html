@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Reader Mode</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:Georgia,"Times New Roman","Noto Serif SC",serif;background:#1a1a2e;color:#e0d8c8;line-height:1.9}
+.container{max-width:720px;margin:0 auto;padding:40px 24px}
+.controls{position:fixed;top:0;left:0;right:0;background:#111827;border-bottom:1px solid #1e293b;padding:10px 24px;display:flex;gap:12px;align-items:center;z-index:100}
+.controls select,.controls button{background:#1e293b;color:#e2e8f0;border:1px solid #334155;border-radius:6px;padding:6px 12px;font-size:.8rem;cursor:pointer}
+.controls label{color:#64748b;font-size:.75rem}
+.article{margin-top:60px}
+.article h1{font-size:2rem;color:#f1f5f9;margin-bottom:24px}
+.article h2{font-size:1.4rem;color:#e2e8f0;margin:32px 0 16px}
+.article p{margin-bottom:16px}
+.article img{max-width:100%;border-radius:8px;margin:16px 0}
+.article a{color:#a78bfa}
+.article pre,.article code{background:#0f172a;border-radius:4px;padding:2px 6px;font-size:.85rem}
+.article blockquote{border-left:3px solid #7c3aed;padding-left:16px;color:#94a3b8;margin:16px 0}
+</style>
+</head>
+<body>
+<div class="controls">
+  <label>Font:</label>
+  <select id="fontSize" onchange="changeFont()">
+    <option value="16">16px</option>
+    <option value="18" selected>18px</option>
+    <option value="20">20px</option>
+    <option value="22">22px</option>
+  </select>
+  <label>Theme:</label>
+  <select id="theme" onchange="changeTheme()">
+    <option value="dark" selected>Dark</option>
+    <option value="sepia">Sepia</option>
+    <option value="light">Light</option>
+  </select>
+  <button onclick="window.close()">Close</button>
+</div>
+<div class="container">
+  <article class="article" id="content"></article>
+</div>
+<script>
+// Load content from storage
+const content = sessionStorage.getItem('reader_content');
+const title = sessionStorage.getItem('reader_title');
+if (content) {
+    document.getElementById('content').innerHTML = `<h1>${title || ''}</h1>${content}`;
+    document.title = title || 'Reader Mode';
+} else {
+    document.getElementById('content').innerHTML = '<p>No content extracted. Go back to a webpage and click Reader Mode again.</p>';
+}
+
+function changeFont() {
+    const s = document.getElementById('fontSize').value;
+    document.querySelector('.article').style.fontSize = s + 'px';
+    localStorage.setItem('reader_font', s);
+}
+
+function changeTheme() {
+    const t = document.getElementById('theme').value;
+    if (t === 'dark') {
+        document.body.style.background = '#1a1a2e';
+        document.body.style.color = '#e0d8c8';
+    } else if (t === 'sepia') {
+        document.body.style.background = '#f4ecd8';
+        document.body.style.color = '#5b4636';
+    } else {
+        document.body.style.background = '#fafafa';
+        document.body.style.color = '#333';
+    }
+    localStorage.setItem('reader_theme', t);
+}
+
+// Load saved settings
+const savedFont = localStorage.getItem('reader_font');
+if (savedFont) {
+    document.getElementById('fontSize').value = savedFont;
+    changeFont();
+}
+const savedTheme = localStorage.getItem('reader_theme');
+if (savedTheme) {
+    document.getElementById('theme').value = savedTheme;
+    changeTheme();
+}
+</script>
+</body>
+</html>

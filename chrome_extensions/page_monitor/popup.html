@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{width:380px;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:#0f172a;color:#e2e8f0;padding:16px}
+h1{font-size:1rem;margin-bottom:4px;background:linear-gradient(135deg,#22d3ee,#10b981);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.sub{font-size:.7rem;color:#64748b;margin-bottom:16px}
+.row{display:flex;gap:8px;margin-bottom:12px}
+input{flex:1;background:#1e293b;border:1px solid #334155;border-radius:6px;padding:6px 10px;color:#e2e8f0;font-size:.75rem}
+input:focus{outline:none;border-color:#22d3ee}
+select{background:#1e293b;color:#e2e8f0;border:1px solid #334155;border-radius:6px;padding:6px 10px;font-size:.75rem}
+.btn{background:#0891b2;color:#fff;border:none;border-radius:6px;padding:8px 16px;font-size:.75rem;cursor:pointer}
+.btn:hover{opacity:.9}
+.btn.danger{background:#991b1b}
+.list{margin-top:12px;max-height:300px;overflow-y:auto}
+.item{background:#1e293b;border:1px solid #334155;border-radius:6px;padding:10px;margin-bottom:8px;font-size:.75rem}
+.item .url{color:#e2e8f0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;margin-bottom:4px}
+.item .meta{color:#64748b;font-size:.65rem;display:flex;justify-content:space-between}
+.item .changed{color:#f59e0b}
+.item .same{color:#10b981}
+</style>
+</head>
+<body>
+<h1>Page Monitor</h1>
+<p class="sub">Track webpage changes & get notified</p>
+<div class="row">
+  <input id="url" placeholder="https://example.com/page">
+</div>
+<div class="row">
+  <select id="interval">
+    <option value="1">Every 1 hour</option>
+    <option value="6" selected>Every 6 hours</option>
+    <option value="24">Every 24 hours</option>
+  </select>
+  <button class="btn" id="addBtn">+ Monitor</button>
+</div>
+<div class="list" id="list"></div>
+<script src="popup.js"></script>
+</body>
+</html>

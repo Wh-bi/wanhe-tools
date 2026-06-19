@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{width:420px;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:#0f172a;color:#e2e8f0;padding:16px}
+h1{font-size:1rem;margin-bottom:4px;background:linear-gradient(135deg,#06b6d4,#3b82f6);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.sub{font-size:.7rem;color:#64748b;margin-bottom:12px}
+.toolbar{display:flex;gap:6px;margin-bottom:12px;flex-wrap:wrap}
+.search-box{flex:1;min-width:150px;background:#1e293b;border:1px solid #334155;border-radius:6px;padding:6px 10px;color:#e2e8f0;font-size:.75rem}
+.search-box:focus{outline:none;border-color:#06b6d4}
+.btn{background:#1e293b;color:#e2e8f0;border:1px solid #334155;border-radius:6px;padding:6px 10px;font-size:.7rem;cursor:pointer;white-space:nowrap}
+.btn:hover{background:#334155}
+.btn.accent{background:#0891b2;border-color:#06b6d4;color:#fff}
+.btn.accent:hover{background:#06b6d4}
+.btn.danger{background:#991b1b;border-color:#ef4444;color:#fff}
+.stats{display:flex;gap:12px;margin-bottom:12px;font-size:.7rem;color:#64748b}
+.stats span{color:#06b6d4;font-weight:600}
+.list{max-height:400px;overflow-y:auto}
+.category{margin-bottom:12px}
+.cat-header{display:flex;justify-content:space-between;align-items:center;padding:6px 10px;background:#1e293b;border-radius:6px;cursor:pointer;font-size:.8rem;color:#94a3b8}
+.cat-header:hover{background:#334155}
+.cat-header .count{color:#06b6d4;font-size:.7rem}
+.bookmark{padding:6px 10px 6px 24px;font-size:.75rem;border-bottom:1px solid #1e293b;display:flex;justify-content:space-between;align-items:center}
+.bookmark a{color:#e2e8f0;text-decoration:none;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;flex:1}
+.bookmark a:hover{color:#06b6d4}
+.bookmark .dead{color:#ef4444;font-size:.6rem;margin-left:4px}
+.bookmark .dup{color:#f59e0b;font-size:.6rem;margin-left:4px}
+.loading{text-align:center;color:#94a3b8;font-size:.75rem;padding:20px;display:none}
+</style>
+</head>
+<body>
+<h1>Smart Bookmarks</h1>
+<p class="sub">AI-powered organizer</p>
+
+<div class="toolbar">
+  <input class="search-box" id="search" placeholder="Search bookmarks..." oninput="renderList()">
+  <button class="btn accent" id="classifyBtn">AI Classify</button>
+  <button class="btn" id="dedupeBtn">Dedupe</button>
+  <button class="btn danger" id="deadBtn">Dead Links</button>
+</div>
+
+<div class="stats" id="stats"></div>
+<div class="loading" id="loading">Working...</div>
+<div class="list" id="list"></div>
+
+<script src="popup.js"></script>
+</body>
+</html>

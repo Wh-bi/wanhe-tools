@@ -1,0 +1,14 @@
+{
+  "manifest_version": 3,
+  "name": "Password Generator",
+  "version": "1.0",
+  "description": "Generate strong random passwords with one click. Zero permissions, fully local.",
+  "permissions": ["clipboardWrite"],
+  "action": {
+    "default_popup": "popup.html",
+    "default_icon": "icon.png"
+  },
+  "icons": {
+    "128": "icon_128.png"
+  }
+}
